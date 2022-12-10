@@ -1,10 +1,13 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {createRoot} from 'react-dom/client'
 import './options.css'
 
-const App = () => {
+const App: React.FC = () => {
+
     return (
-        <img src="icon.png"/>
+        <div>
+          <img src="icon.png"/>
+        </div>
     )
   }
 
