@@ -1,5 +1,8 @@
-chrome.runtime.onMessage.addListener((msg, sender, sendRes) => {
-    console.log(msg);
-    console.log(sender);
-    sendRes("Background says hi!")
+import { setStoredCities, setStoredOptions } from "../utils/storage";
+
+chrome.runtime.onInstalled.addListener(() => {
+    setStoredCities([])
+    setStoredOptions({
+        tempScale: 'metric'
+    })
 })
