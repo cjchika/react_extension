@@ -14,7 +14,7 @@ const App: React.FC<{}> = () => {
 
   useEffect(() => {
     getStoredCities().then(cities => setCities(cities))
-    // getStoredOptions().then(options => setOptions(options))
+    getStoredOptions().then(options => setOptions(options))
   }, [])
 
   const handleCityButtonClick = () => {
@@ -36,14 +36,24 @@ const App: React.FC<{}> = () => {
     })
   }
 
-  // if(!options) {
-  //   return null
-  // }
+  const handleTempScaleButtonClick = () => {
+    const updatedOptions: LocalStorageOptions ={
+      ...options,
+      tempScale: options.tempScale === 'metric' ? 'imperial' : 'metric'
+    }
+    setStoredOptions(updatedOptions).then(() => {
+      setOptions(updatedOptions)
+    })
+  }
+
+  if(!options) {
+    return null
+  }
   
   return (
     <>
     <Box mx={'4px'} my={'16px'}>
-      <Grid container>
+      <Grid container alignItems="center" justifyContent="space-between">
         <Grid item> 
           <Paper>
           <Box mx={"8px"} my="16px">
@@ -58,9 +68,22 @@ const App: React.FC<{}> = () => {
           </Box>
           </Paper>
       </Grid>
+      <Grid item>
+        <Box py="1px">
+        <Paper>
+          <IconButton onClick={handleTempScaleButtonClick}>
+            {options.tempScale === 'metric' ? '\u2103' : '\u2109'}
+          </IconButton>
+        </Paper>
+        </Box>
+      </Grid>
     </Grid>
+    {
+      options.homeCity != '' && 
+      <WeatherCard city={options.homeCity} tempScale={options.tempScale} />
+    }
     {cities.map((city, index) => (
-      <WeatherCard city={city} key={index} onDelete={() => handleDeleteButtonClick(index)}/>
+      <WeatherCard city={city} tempScale={options.tempScale} key={index} onDelete={() => handleDeleteButtonClick(index)}/>
     ))}
     <Box height="16px" />
     </Box>
